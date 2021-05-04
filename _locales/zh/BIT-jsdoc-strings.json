@@ -1,0 +1,24 @@
+{
+	"hicbit_control.hicbit_Init":"初始化，请在开机时执行",
+	"hicbit_control.hicbit_Arrowkeys": "判断方向（上下左右）按键被按下",
+	"hicbit_control.wait_s":"等待指定时间（秒）",
+	"hicbit_control.wait_ms":"等待指定时间（毫秒）",
+
+	"hicbit.MotorInit":"初始化各接口电机",
+	"hicbit.set_Single_motor": "设置一路电机速度和电机功能",
+	"hicbit.SingleMotorStop":	"使一路电机停止",
+	"hicbit.set_Dual_motor": "设置两路电机速度和电机功能",
+	"hicbit.DualMotorStop":"使两路电机停止",
+
+	"Sensor.SensorInit":"初始化传感器模块",
+	"Sensor.GetSensorValue":"获取某端口某传感器的值",
+	"Sensor.CtrlSensorInit":"初始化功能模块",
+	"Sensor.SetCtrlSensor":"设置功能模块",
+	"Sensor.SetRGBLantern":"设置RGB彩灯",
+
+	"Display.DisplayInit":"初始化屏幕显示",
+	"Display.setDisplay2|block":"屏幕显示初始化",
+	"Display.Clearscreen|block":"清屏操作",
+	"Display.exitscreen|block":"退出屏幕显示",
+	"Display.DisplaysersorValue|block":"屏幕显示某端口某传感器的值"
+}
