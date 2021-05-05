@@ -338,7 +338,7 @@ namespace hicbit {
     //% inlineInputMode=inline
     export function set_Single_motor(port: hicbit_Port, Motortype: motor_type, Turn_TO: motor_Turn, speed: number, Features: hicbit_Features, Content: number) {
         let Check_Digit: number = 0;
-        let content: number[];
+        let content: number[] = [0, 0, 0, 0];
         content[Features] = Content;
         let buf = pins.createBuffer(18);
 
@@ -407,7 +407,7 @@ namespace hicbit {
     //% inlineInputMode=inline
     export function set_Dual_motor(port1: hicbit_Port, Motortype1: motor_type, Turn_TO1: motor_Turn, speed1: number, port2: hicbit_Port, Motortype2: motor_type, Turn_TO2: motor_Turn, speed2: number, Features: hicbit_Features, Content: number) {
         let Check_Digit: number = 0;
-        let content: number[];
+        let content: number[] = [0, 0, 0, 0];
         content[Features] = Content;
         let buf = pins.createBuffer(23);
         
