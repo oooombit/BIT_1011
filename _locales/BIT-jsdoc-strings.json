@@ -7,7 +7,7 @@
   "Sensor.CtrlSensorInit": "Initialize the Ctrl sensor",
   "Sensor.GetSensorValue": "Get the value of a sensor on a port",
   "Sensor.SensorInit": "Initialize the sensor",
-  "Sensor.SetCtrlSensor": "Set the Ctrl sensor",
+  "Sensor.SetCtrlBuzzer": "Set the Ctrl sensor\n//% \nexport function SetCtrlSensor(port: hicbit_Port,Ctrl_sensor: Ctrl_Sensor_type,num: number):void{\nlet Check_Digit: number = 0;\nlet num1: number = 0;\nlet num2: number = 0;\nlet num3: number = 0;\nlet buf = pins.createBuffer(11);\nnum1 = num;\nbuf[0] = 0xFE;\nbuf[1] = 0xFE;\nbuf[2] = 0x08;        //长度\nbuf[3] = hicbit_control.getsncode();//sn码\nbuf[4] = 0xE1;                      //CMD\nbuf[5] = Ctrl_sensor + 1;\nbuf[6] = num1;\nbuf[7] = num2;\nbuf[8] = num3;\nbuf[9] = port;\nfor (let i = 0; i < 10; i++)\nCheck_Digit = Check_Digit + buf[i];\nbuf[10] = Check_Digit & 0xFF;       //校验\nserial.writeBuffer(buf);\nbasic.pause(50);\n}\n\nSet the buzzer",
   "Sensor.SetRGBLantern": "Set the Lantern",
   "hicbit.DualMotorStop": "Dual Motor Stop",
   "hicbit.DualMotorStop|param|port1": "First port, eg: hicbit.hicbit_Port.port1",

@@ -326,7 +326,7 @@ namespace hicbit {
         buf[7] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
        
     }
 
@@ -368,7 +368,7 @@ namespace hicbit {
         buf[17] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
         
-        basic.pause(500);
+        basic.pause(50);
     }
 
     /**
@@ -392,7 +392,7 @@ namespace hicbit {
         buf[7] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
        
     }
 
@@ -443,7 +443,7 @@ namespace hicbit {
         buf[22] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
         
-        basic.pause(500);
+        basic.pause(50);
     }
     
     /**
@@ -471,7 +471,7 @@ namespace hicbit {
         buf[9] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
        
     }
 
@@ -492,6 +492,27 @@ namespace Sensor {
         port3 = 0x03,
         //% block="Port 4"
         port4 = 0x04
+    }
+
+    export enum Init_Sensor_type {
+        //% block="photosensitive"
+        photosensitive = 0x01,
+        //% block="collisionsensor"
+        collisionsensor = 0x02,
+        //% block="avoidSensor"
+        avoidSensor = 0x03,
+        //% block="ColorSensor"
+        ColorSensor = 0x04,
+        //% block="Soundsensor"
+        Soundsensor = 0x05,
+        //% block="Temperature_and_humidity_sensor"
+        Temperature_and_humidity_sensor = 0x06,
+        //% block="lineSensor"
+        lineSensor = 0x07,
+        //% block="ultrasonic"
+        ultrasonic = 0x08,
+        //% block="GyroscopGe"
+        GyroscopGe = 0x09,
     }
 
     export enum Sensor_type {
@@ -522,20 +543,25 @@ namespace Sensor {
     export enum Init_Ctrl_Sensor_type {
         //% block="Lantern"
         Lantern = 0x01,
-        //% block="buzzer"
-        buzzer = 0x02,
     }
 
-    export enum Ctrl_Sensor_type {
-        //% block="buzzer"
-        buzzer = 0x01,
-    }
+    // export enum Init_Ctrl_Sensor_type {
+    //     //% block="Lantern"
+    //     Lantern = 0x01,
+    //     //% block="buzzer"
+    //     buzzer = 0x02,
+    // }
+
+    // export enum Ctrl_Sensor_type {
+    //     //% block="buzzer"
+    //     buzzer = 0x01,
+    // }
 
     /**
      * Initialize the sensor
      */
     //% weight=99 blockId=SensorInit block="Initialize %port | %sensor"
-    export function SensorInit(port: hicbit_Port,sensor:Sensor_type):void{
+    export function SensorInit(port: hicbit_Port,sensor:Init_Sensor_type):void{
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
 
@@ -551,7 +577,7 @@ namespace Sensor {
         buf[7] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
     }
 
     /**
@@ -562,6 +588,9 @@ namespace Sensor {
         let Check_Digit: number = 0;
         let sersor_value: number = 0;
         let buf = pins.createBuffer(8);
+
+        if (sensor == 10 || sensor == 11)
+            sensor = 9;
 
         buf[0] = 0xFE;
         buf[1] = 0xFE;
@@ -597,6 +626,9 @@ namespace Sensor {
         return sersor_value;
     }
 
+
+
+
     /**
      * Initialize the Ctrl sensor
      */
@@ -617,12 +649,12 @@ namespace Sensor {
         buf[7] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
     }
 
     /**
      * Set the Ctrl sensor
-     */
+     
     //% weight=96 blockId=SetCtrlSensor block="Set |%port |%Ctrl_sensor |%num"
     export function SetCtrlSensor(port: hicbit_Port,Ctrl_sensor: Ctrl_Sensor_type,num: number):void{
         let Check_Digit: number = 0;
@@ -648,8 +680,40 @@ namespace Sensor {
         buf[10] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
     }
+    */
+    
+
+    /**
+     * Set the buzzer
+     */
+    //% weight=96 blockId=SetCtrlBuzzer block="Set buzzer |%num"
+    export function SetCtrlBuzzer(num: number):void{
+        let Check_Digit: number = 0;
+        let num1: number = 0;
+        let num2: number = 0;
+        let num3: number = 0;
+        let buf = pins.createBuffer(9);
+
+        num1 = num;
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x06;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xE3;                      //CMD
+        buf[5] = num1;
+        buf[6] = num2;
+        buf[7] = num3;
+        for (let i = 0; i < 8; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[8] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+    }
+
 
     /**
      * Set the Lantern
@@ -678,7 +742,7 @@ namespace Sensor {
         buf[10] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
     }
 
 }
@@ -735,7 +799,7 @@ namespace Display {
         buf[6] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
        
     }
 
@@ -781,7 +845,7 @@ namespace Display {
         serial.writeBuffer(buf1);
         //serial.writeString(NEW_LINE);
 
-        basic.pause(500);
+        basic.pause(50);
     }
 
 
@@ -805,7 +869,7 @@ namespace Display {
         buf[6] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
        
-        basic.pause(500);
+        basic.pause(50);
     }
 
 
@@ -828,7 +892,7 @@ namespace Display {
         buf[6] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(500);
+        basic.pause(50);
        
     }
 
@@ -854,7 +918,7 @@ namespace Display {
         serial.writeBuffer(buf);
         //serial.writeString(NEW_LINE);
 
-        basic.pause(500);
+        basic.pause(50);
     }
 }
 

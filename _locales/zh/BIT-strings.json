@@ -3,6 +3,7 @@
 	"hicbit_control.hicbit_Init|block": "初始化",
 	"hicbit_control.wait_s|block":"等待|%s|（秒）",
 	"hicbit_control.wait_ms|block":"等待|%ms|（毫秒）",
+	
 
 	"{id:category}Hicbit": "电机",
 	"hicbit.hicbit_Port.port1|block":"接口A",
@@ -25,11 +26,23 @@
 	"hicbit.set_Dual_motor|block": "设置|%port1 的|%Motortype1 |%Turn_TO1 速度|%speed1|和|%port2 的|%Motortype2 |%Turn_TO2 速度|%speed2|功能|%Features|:|%Content|",
 	"hicbit.DualMotorStop|block":"使|%port1 的 |%motor1 和|%port2 的 |%motor2 停止",
 
+
 	"{id:category}Sensor": "传感器",
 	"Sensor.hicbit_Port.port1|block":"接口1",
 	"Sensor.hicbit_Port.port2|block":"接口2",
 	"Sensor.hicbit_Port.port3|block":"接口3",
 	"Sensor.hicbit_Port.port4|block":"接口4",
+
+	"Sensor.Init_Sensor_type.photosensitive|block":"光敏传感器",
+	"Sensor.Init_Sensor_type.collisionsensor|block":"碰撞传感器",
+	"Sensor.Init_Sensor_type.avoidSensor|block":"红外避障传感器",
+	"Sensor.Init_Sensor_type.ColorSensor|block":"颜色传感器",
+	"Sensor.Init_Sensor_type.Soundsensor|block":"声音传感器",
+	"Sensor.Init_Sensor_type.Temperature_and_humidity_sensor|block":"温湿度传感器",
+	"Sensor.Init_Sensor_type.lineSensor|block":"循迹传感器",
+	"Sensor.Init_Sensor_type.ultrasonic|block":"超声波传感器",
+	"Sensor.Init_Sensor_type.GyroscopGe|block":"陀螺仪传感器",
+
 	"Sensor.Sensor_type.photosensitive|block":"光敏传感器",
 	"Sensor.Sensor_type.collisionsensor|block":"碰撞传感器",
 	"Sensor.Sensor_type.avoidSensor|block":"红外避障传感器",
@@ -41,6 +54,7 @@
 	"Sensor.Sensor_type.GyroscopGe_X|block":"陀螺仪传感器X轴",
 	"Sensor.Sensor_type.GyroscopGe_Y|block":"陀螺仪传感器Y轴",
 	"Sensor.Sensor_type.GyroscopGe_Z|block":"陀螺仪传感器Z轴",
+
 	"Sensor.Init_Ctrl_Sensor_type.Lantern|block":"RGB彩灯",
 	"Sensor.Init_Ctrl_Sensor_type.buzzer|block":"蜂鸣器",
 
@@ -50,7 +64,9 @@
 	"Sensor.GetSensorValue|block":"获取|%port的|%sensor的值",
 	"Sensor.CtrlSensorInit|block":"初始化|%port的|%sensor",
 	"Sensor.SetCtrlSensor|block":"设置|%port的|%sensor为|%num",
+	"Sensor.SetCtrlBuzzer|block":"设置蜂鸣器%num",
 	"Sensor.SetRGBLantern|block":"设置|%port的彩灯的RGB为红|%red|绿|%green|蓝|%blue|",
+
 
 	"{id:category}Display": "显示",
 	"Display.Linenum.first_line|block":"第一行",

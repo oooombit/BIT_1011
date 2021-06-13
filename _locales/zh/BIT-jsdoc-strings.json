@@ -14,6 +14,7 @@
 	"Sensor.GetSensorValue":"获取某端口某传感器的值",
 	"Sensor.CtrlSensorInit":"初始化功能模块",
 	"Sensor.SetCtrlSensor":"设置功能模块",
+	"Sensor.SetCtrlBuzzer":"设置蜂鸣器模块",
 	"Sensor.SetRGBLantern":"设置RGB彩灯",
 
 	"Display.DisplayInit":"初始化屏幕显示",
