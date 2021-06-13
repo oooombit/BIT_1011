@@ -604,7 +604,7 @@ namespace Sensor {
         buf[7] = Check_Digit & 0xFF;       //校验
         serial.writeBuffer(buf);
 
-        basic.pause(1000);
+        basic.pause(50);
 
         switch (port)    //Port_num
         {
