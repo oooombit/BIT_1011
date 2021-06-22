@@ -505,8 +505,8 @@ namespace Sensor {
         ColorSensor = 0x04,
         //% block="Soundsensor"
         Soundsensor = 0x05,
-        //% block="Temperature_and_humidity_sensor"
-        Temperature_and_humidity_sensor = 0x06,
+        //% block="Temperaturesensor"
+        Temperaturesensor = 0x06,
         //% block="lineSensor"
         lineSensor = 0x07,
         //% block="ultrasonic"
@@ -526,8 +526,8 @@ namespace Sensor {
         ColorSensor = 0x04,
         //% block="Soundsensor"
         Soundsensor = 0x05,
-        //% block="Temperature_and_humidity_sensor"
-        Temperature_and_humidity_sensor = 0x06,
+        //% block="Temperaturesensor"
+        Temperaturesensor = 0x06,
         //% block="lineSensor"
         lineSensor = 0x07,
         //% block="ultrasonic"
