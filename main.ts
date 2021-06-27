@@ -265,7 +265,7 @@ namespace hicbit {
 
     export let NEW_LINE = "\r\n";
 
-    export enum hicbit_Port {
+    export enum motor_Port {
         //% block="port A"
         port1 = 0x01,
         //% block="port B"
@@ -306,11 +306,20 @@ namespace hicbit {
         Reverse = 0x02,
     }
 
+    export enum motor_speed {
+        //% block="Low_speed"
+        Low_speed = 0x01,
+        //% block="Medium_speed"
+        Medium_speed = 0x02,
+        //% block="high_speed"
+        high_speed = 0x03,
+    }
+
     /**
         * Motor Init
         */
     //% weight=100 blockId=MotorInit block="Init |%port |%motor "
-    export function MotorInit(port: hicbit_Port, motor: motor_type): void {
+    export function MotorInit(port: motor_Port, motor: motor_type): void {
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
 
@@ -334,9 +343,8 @@ namespace hicbit {
     *	Set interface motor speed , that can control turn.etc.
     */
     //% weight=99 blockId=set_Single_motor block="Set |%port |%Motortype |%Turn_TO |speed：%speed |Features %Features|: |%Content|"
-    //% speed.min=0 speed.max=65535 
     //% inlineInputMode=inline
-    export function set_Single_motor(port: hicbit_Port, Motortype: motor_type, Turn_TO: motor_Turn, speed: number, Features: hicbit_Features, Content: number) {
+    export function set_Single_motor(port: motor_Port, Motortype: motor_type, Turn_TO: motor_Turn, speed: motor_speed, Features: hicbit_Features, Content: number) {
         let Check_Digit: number = 0;
         let content: number[] = [0, 0, 0, 0];
         content[Features] = Content;
@@ -376,7 +384,7 @@ namespace hicbit {
         */
     //% weight=98 blockId=SingleMotorStop block="Single |%port |%motor stop"
     //% inlineInputMode=inline
-    export function SingleMotorStop(port: hicbit_Port, motor: motor_type): void {
+    export function SingleMotorStop(port: motor_Port, motor: motor_type): void {
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
 
@@ -397,15 +405,13 @@ namespace hicbit {
     }
 
     /**
-    *	Set interface motor1 and motor2 speed , range of -255~255, that can control turn.etc.
-    *   @param port1 First port, eg: hicbit.hicbit_Port.port1
-    *   @param port2 The second port, eg: hicbit.hicbit_Port.port2
+    *	Set interface motor1 and motor2 speed , that can control turn.etc.
+    *   @param port1 First port, eg: hicbit.Port.port1
+    *   @param port2 The second port, eg: hicbit.Port.port2
     */
     //% weight=97 blockId=set_Dual_motor block="Set|%port1 |%Motortype1 |%Turn_TO1 speed|%speed1|和|%port2 |%Motortype2 |%Turn_TO2 speed|%speed2| Features|%Features|:|%Content|""
-    //% speed1.min=0 speed1.max=65535 
-    //% speed2.min=0 speed2.max=65535 
     //% inlineInputMode=inline
-    export function set_Dual_motor(port1: hicbit_Port, Motortype1: motor_type, Turn_TO1: motor_Turn, speed1: number, port2: hicbit_Port, Motortype2: motor_type, Turn_TO2: motor_Turn, speed2: number, Features: hicbit_Features, Content: number) {
+    export function set_Dual_motor(port1: motor_Port, Motortype1: motor_type, Turn_TO1: motor_Turn, speed1: motor_speed, port2: motor_Port, Motortype2: motor_type, Turn_TO2: motor_Turn, speed2: motor_speed, Features: hicbit_Features, Content: number) {
         let Check_Digit: number = 0;
         let content: number[] = [0, 0, 0, 0];
         content[Features] = Content;
@@ -448,12 +454,12 @@ namespace hicbit {
     
     /**
         * Dual Motor Stop
-        * @param port1 First port, eg: hicbit.hicbit_Port.port1
-        * @param port2 The second port, eg: hicbit.hicbit_Port.port2
+        * @param port1 First port, eg: hicbit.Port.port1
+        * @param port2 The second port, eg: hicbit.Port.port2
         */
     //% weight=96 blockId=DualMotorStop block="Dual |%port1 |%motor1 and |%port2 |%motor2 stop"
     //% inlineInputMode=inline
-    export function DualMotorStop(port1: hicbit_Port, motor1: motor_type, port2: hicbit_Port, motor2: motor_type): void {
+    export function DualMotorStop(port1: motor_Port, motor1: motor_type, port2: motor_Port, motor2: motor_type): void {
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(10);
 
@@ -483,7 +489,7 @@ namespace hicbit {
 //% weight=8 icon="\uf2db" color=#8470FF
 namespace Sensor {
     
-    export enum hicbit_Port {
+    export enum Sensor_Port {
         //% block="port 1"
         port1 = 0x01,
         //% block="port 2"
@@ -526,12 +532,12 @@ namespace Sensor {
         ColorSensor = 0x04,
         //% block="Soundsensor"
         Soundsensor = 0x05,
-        //% block="Temperaturesensor"
-        Temperaturesensor = 0x06,
+        //% block="Temperaturesensor_Celsius"
+        Temperaturesensor_Celsius = 0x06,
         //% block="lineSensor"
         lineSensor = 0x07,
-        //% block="ultrasonic"
-        ultrasonic = 0x08,
+        //% block="ultrasonic_cm"
+        ultrasonic_cm = 0x08,
         //% block="GyroscopGe_X"
         GyroscopGe_X = 0x09,
         //% block="GyroscopGe_Y"
@@ -543,6 +549,61 @@ namespace Sensor {
     export enum Init_Ctrl_Sensor_type {
         //% block="Lantern"
         Lantern = 0x01,
+    }
+
+    export enum Detect_Flag{
+        //% block="With_detection"
+        With_detection = 0x01,
+        //% block="Not_detected"
+        Not_detected = 0x02,
+    }
+
+    export enum line_follower_Flag{
+        //% block="white"
+        white = 0x01,
+        //% block="black"
+        black = 0x02,
+    }
+
+    export enum Color_Flag{
+        //% block="red"
+        red = 0x01,
+        //% block="yellow"
+        yellow = 0x02,
+        //% block="blue"
+        blue = 0x03,
+        //% block="green"
+        green = 0x04,
+        //% block="purple"
+        purple = 0x05,
+    }
+
+    export enum GyroscopGe_Flag{
+        //% block="Front"
+        Front = 0x01,
+        //% block="back"
+        back = 0x02,
+        //% block="left"
+        left = 0x03,
+        //% block="right"
+        right = 0x04,
+        //% block="shock"
+        shock = 0x05,
+    }
+
+    export enum Lantern_Color_Flag{
+        //% block="red"
+        red = 0x01,
+        //% block="yellow"
+        yellow = 0x02,
+        //% block="blue"
+        blue = 0x03,
+        //% block="green"
+        green = 0x04,
+        //% block="purple"
+        purple = 0x05,
+        //% block="white"
+        white = 0x06,
     }
 
     // export enum Init_Ctrl_Sensor_type {
@@ -560,8 +621,8 @@ namespace Sensor {
     /**
      * Initialize the sensor
      */
-    //% weight=99 blockId=SensorInit block="Initialize %port | %sensor"
-    export function SensorInit(port: hicbit_Port,sensor:Init_Sensor_type):void{
+    //% weight=99 blockGap=50 blockId=SensorInit block="Initialize %port | %sensor"
+    export function SensorInit(port: Sensor_Port,sensor:Init_Sensor_type):void{
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
 
@@ -583,8 +644,8 @@ namespace Sensor {
     /**
      * Get the value of a sensor on a port
      */
-    //% weight=98 blockGap=50 blockId=GetSensorValue block="Get %port | %sensor "
-    export function GetSensorValue(port: hicbit_Port,sensor:Sensor_type): number {
+    //% weight=50 blockGap=50 blockId=GetSensorValue block="Get %port | %sensor "
+    export function GetSensorValue(port: Sensor_Port,sensor:Sensor_type): number {
         let Check_Digit: number = 0;
         let sersor_value: number = 0;
         let buf = pins.createBuffer(8);
@@ -626,14 +687,515 @@ namespace Sensor {
         return sersor_value;
     }
 
+     /**
+     * Get the value of Temperature sensor on a port 温度
+     */
+    //% weight=97 blockId=GetTemperaturesensorValue block="Get %port Temperature sensor value(°C)"
+    export function GetTemperaturesensorValue(port: Sensor_Port): number {
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.Temperaturesensor_Celsius;
+        let buf = pins.createBuffer(8);
 
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        return sersor_value;
+    }
+
+    /**
+     * Get the value of ultrasonic sensor on a port 超声波
+     */
+    //% weight=96 blockGap=50 blockId=GetultrasonicValue block="Get %port ultrasonic sensor value(cm)"
+    export function GetultrasonicValue(port: Sensor_Port): number {
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.ultrasonic_cm;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        return sersor_value;
+    }
+
+
+    /**
+    * Get the Photosensitive sensor status,1 detect bright,0 no detect bright 光敏
+    */
+    //% weight=95 blockId=GetPhotosensitive block="|port %port|Photosensitive sensor |sensor_flag %sensor_flag| bright"
+    export function GetPhotosensitive(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.photosensitive;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == 1)  //有
+        {
+            if (sensor_flag == 0x01)
+                flag = true;
+            else if (sensor_flag == 0x02)
+                flag = false;
+        }
+        else if (sersor_value == 0) //冇
+        {
+            if (sensor_flag == 0x01)
+                flag = false;
+            else if (sensor_flag == 0x02)
+                flag = true;
+        }
+        return flag;
+
+    }
+
+    /**
+    * Get the collision sensor status,1 trigger,0 no trigger 碰撞
+    */
+    //% weight=94 blockId=Getcollisionsensor block="|port %port| collision sensoris |sensor_flag %sensor_flag| trigger"
+    export function Getcollisionsensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.collisionsensor;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == 1)  //有
+        {
+            if (sensor_flag == 0x01)
+                flag = true;
+            else if (sensor_flag == 0x02)
+                flag = false;
+        }
+        else if (sersor_value == 0) //冇
+        {
+            if (sensor_flag == 0x01)
+                flag = false;
+            else if (sensor_flag == 0x02)
+                flag = true;
+        }
+        return flag;
+
+    }
+
+    /**
+    *Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle 避障判断
+    */
+    //% weight=93 blockId=GetavoidSensor block="|port %port| Obstacle avoidance sensor |sensor_flag %sensor_flag| obstacle"
+    export function GetavoidSensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.avoidSensor;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == 1)  //有
+        {
+            if (sensor_flag == 0x01)
+                flag = true;
+            else if (sensor_flag == 0x02)
+                flag = false;
+        }
+        else if (sersor_value == 0) //冇
+        {
+            if (sensor_flag == 0x01)
+                flag = false;
+            else if (sensor_flag == 0x02)
+                flag = true;
+        }
+        return flag;
+
+    }
+
+    /**
+    *Set the Sound sensor status,1 detect the sound source,0 no detect the sound source 声音
+    */
+    //% weight=92 blockId=GetSoundsensor block="|port %port| Sound sensor |sensor_flag %sensor_flag| source"
+    export function GetSoundsensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.Soundsensor;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == 1)  //有
+        {
+            if (sensor_flag == 0x01)
+                flag = true;
+            else if (sensor_flag == 0x02)
+                flag = false;
+        }
+        else if (sersor_value == 0) //冇
+        {
+            if (sensor_flag == 0x01)
+                flag = false;
+            else if (sensor_flag == 0x02)
+                flag = true;
+        }
+        return flag;
+
+    }
+
+    /**
+    *Get the line follower sensor port value 巡线
+    */
+    //% weight=91 blockId=GetlineSensor block="|port %port| the line follower sensor detect |sensor_flag %sensor_flag| "
+    export function GetlineSensor(port: Sensor_Port,sensor_flag:line_follower_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.lineSensor;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == 1)  //有
+        {
+            if (sensor_flag == 0x01)
+                flag = true;
+            else if (sensor_flag == 0x02)
+                flag = false;
+        }
+        else if (sersor_value == 0) //冇
+        {
+            if (sensor_flag == 0x01)
+                flag = false;
+            else if (sensor_flag == 0x02)
+                flag = true;
+        }
+        return flag;
+
+    }
+
+    /**
+    *Get the colour sensor port value 颜色
+    */
+    //% weight=90 blockId=GetColorSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
+    export function GetColorSensor(port: Sensor_Port,sensor_flag:Color_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.ColorSensor;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        if (sersor_value == sensor_flag)  
+            flag = true;
+        else 
+            flag = false;
+        return flag;
+
+    }
+
+    /**
+    *Get the GyroscopGe sensor port value 陀螺仪
+    */
+    //% weight=89 blockGap=50 blockId=GetGyroscopGeSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
+    export function GetGyroscopGeSensor(port: Sensor_Port,sensor_flag:GyroscopGe_Flag): boolean {
+        let flag: boolean = false;
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let x_value: number = 0;
+        let y_value: number = 0;
+        let z_value: number = 0;
+        let sensor: number = Init_Sensor_type.GyroscopGe;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                x_value = hicbit_control.Port_A[sensor];
+                y_value = hicbit_control.Port_A[sensor+1];
+                z_value = hicbit_control.Port_A[sensor+2];
+                break;
+            case 2:
+                x_value = hicbit_control.Port_B[sensor];
+                y_value = hicbit_control.Port_B[sensor+1];
+                z_value = hicbit_control.Port_B[sensor+2];
+                break;
+            case 3:
+                x_value = hicbit_control.Port_C[sensor];
+                y_value = hicbit_control.Port_C[sensor+1];
+                z_value = hicbit_control.Port_C[sensor+2];
+                break;
+            case 4:
+                x_value = hicbit_control.Port_D[sensor];
+                y_value = hicbit_control.Port_D[sensor+1];
+                z_value = hicbit_control.Port_D[sensor+2];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+
+        //陀螺仪这块要确定具体角度值才可以做出倾斜方向的判断
+
+        if (sersor_value == sensor_flag)  
+            flag = true;
+        else 
+            flag = false;
+        return flag;
+
+    }
 
 
     /**
      * Initialize the Ctrl sensor
      */
-    //% weight=97 blockId=CtrlSensorInit block="Initialize %port | %Ctrl_sensor"
-    export function CtrlSensorInit(port: hicbit_Port,Ctrl_sensor:Init_Ctrl_Sensor_type):void{
+    //% weight=80 blockId=CtrlSensorInit block="Initialize %port | %Ctrl_sensor"
+    export function CtrlSensorInit(port: Sensor_Port,Ctrl_sensor:Init_Ctrl_Sensor_type):void{
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
 
@@ -656,7 +1218,7 @@ namespace Sensor {
      * Set the Ctrl sensor
      
     //% weight=96 blockId=SetCtrlSensor block="Set |%port |%Ctrl_sensor |%num"
-    export function SetCtrlSensor(port: hicbit_Port,Ctrl_sensor: Ctrl_Sensor_type,num: number):void{
+    export function SetCtrlSensor(port: Port,Ctrl_sensor: Ctrl_Sensor_type,num: number):void{
         let Check_Digit: number = 0;
         let num1: number = 0;
         let num2: number = 0;
@@ -688,7 +1250,7 @@ namespace Sensor {
     /**
      * Set the buzzer
      */
-    //% weight=96 blockId=SetCtrlBuzzer block="Set buzzer |%num"
+    //% weight=60 blockId=SetCtrlBuzzer block="Set buzzer |%num"
     export function SetCtrlBuzzer(num: number):void{
         let Check_Digit: number = 0;
         let num1: number = 0;
@@ -718,12 +1280,12 @@ namespace Sensor {
     /**
      * Set the Lantern
      */
-    //% weight=95 blockId=SetRGBLantern block="Set |%port |red %red|and|green %green|and|blue %blue|"
+    //% weight=79 blockId=SetRGBLantern block="Set |%port |red %red|and|green %green|and|blue %blue|"
     //% inlineInputMode=inline
     //% red.min=0 red.max=255
     //% green.min=0 green.max=255
     //% blue.min=0 blue.max=255
-    export function SetRGBLantern(port: hicbit_Port, red: number, green: number, blue: number):void{
+    export function SetRGBLantern(port: Sensor_Port, red: number, green: number, blue: number):void{
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(11);
 
@@ -736,6 +1298,95 @@ namespace Sensor {
         buf[6] = red;
         buf[7] = green;
         buf[8] = blue;
+        buf[9] = port;
+        for (let i = 0; i < 10; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[10] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+    }
+
+    /**
+     * Set the Lantern colour
+     */
+    //% weight=78 blockId=SetRGBLanterncolour block="Set |%port Lantern |%colour "
+    export function SetRGBLanterncolour(port: Sensor_Port, colour: Lantern_Color_Flag ):void{
+        let Check_Digit: number = 0;
+        let red : number = 0;
+        let green : number = 0;
+        let blue : number = 0;
+        let buf = pins.createBuffer(11);
+
+        switch (colour) { 
+            case 0x01:
+                red = 0x255;
+                green = 0x00;
+                blue = 0x00;
+                break;
+            case 0x02:
+                red = 0x00;
+                green = 0x255;
+                blue = 0x00;
+                break;
+            case 0x03:
+                red = 0x00;
+                green = 0x00;
+                blue = 0x255;
+                break;
+            case 0x04:
+                red = 0x255;
+                green = 0x255;
+                blue = 0x00;
+                break;
+            case 0x05:
+                red = 0x255;
+                green = 0x00;
+                blue = 0x255;
+                break;
+            case 0x06:
+                red = 0x255;
+                green = 0x255;
+                blue = 0x255;
+                break;
+            
+        }
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x08;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xE1;                      //CMD
+        buf[5] = 0x01;
+        buf[6] = red;
+        buf[7] = green;
+        buf[8] = blue;
+        buf[9] = port;
+        for (let i = 0; i < 10; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[10] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+    }
+
+    /**
+     * close the Lantern
+     */
+    //% weight=79 blockId=closeLantern block="close |%port | Lantern"
+    export function closeLantern(port: Sensor_Port):void{
+        let Check_Digit: number = 0;
+        let buf = pins.createBuffer(11);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x08;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xE1;                      //CMD
+        buf[5] = 0x01;
+        buf[6] = 0x00;
+        buf[7] = 0x00;
+        buf[8] = 0x00;
         buf[9] = port;
         for (let i = 0; i < 10; i++)
             Check_Digit = Check_Digit + buf[i];
@@ -901,7 +1552,7 @@ namespace Display {
         * The screen displays the value of the sensor
         */
     //% weight=96 blockId=DisplaysersorValue block="Display %port | %sensor "
-    export function DisplaysersorValue(port: Sensor.hicbit_Port ,sensor:Sensor.Sensor_type): void {
+    export function DisplaysersorValue(port: Sensor.Sensor_Port ,sensor:Sensor.Sensor_type): void {
         let Check_Digit: number = 0;
         let buf = pins.createBuffer(8);
         
