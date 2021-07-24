@@ -14,6 +14,7 @@
 	"Sensor.GetSensorValue":"获取某端口某传感器的值",
 	"Sensor.GetTemperaturesensorValue":"获取某端口温度传感器的值",
 	"Sensor.GetultrasonicValue":"获取某端口超声波传感器的值",
+	"Sensor.GetPhotosensitiveValue":"获取某端口光敏传感器的值",
 	"Sensor.GetPhotosensitive":"判断光敏传感器是否检测到光照",
 	"Sensor.Getcollisionsensor":"判断碰撞传感器是否检测到碰撞",
 	"Sensor.GetavoidSensor":"判断红外避障传感器是否检测到障碍物",

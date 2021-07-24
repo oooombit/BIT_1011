@@ -24,6 +24,7 @@
   "Sensor.Detect_Flag.With_detection|block": "With_detection",
   "Sensor.GetColorSensor|block": "|port %port| the colour sensor detect |sensor_flag %sensor_flag| ",
   "Sensor.GetGyroscopGeSensor|block": "|port %port| the colour sensor detect |sensor_flag %sensor_flag| ",
+  "Sensor.GetPhotosensitiveValue|block": "Get %port Photosensitive sensor value(0~100)",
   "Sensor.GetPhotosensitive|block": "|port %port|Photosensitive sensor |sensor_flag %sensor_flag| bright",
   "Sensor.GetSensorValue|block": "Get %port | %sensor ",
   "Sensor.GetSoundsensor|block": "|port %port| Sound sensor |sensor_flag %sensor_flag| source",

@@ -559,10 +559,10 @@ namespace Sensor {
     }
 
     export enum line_follower_Flag{
-        //% block="white"
-        white = 0x01,
         //% block="black"
-        black = 0x02,
+        black = 0x01,
+        //% block="white"
+        white = 0x02,
     }
 
     export enum Color_Flag{
@@ -734,7 +734,7 @@ namespace Sensor {
     /**
      * Get the value of ultrasonic sensor on a port 超声波
      */
-    //% weight=96 blockGap=50 blockId=GetultrasonicValue block="Get %port ultrasonic sensor value(cm)"
+    //% weight=96 blockId=GetultrasonicValue block="Get %port ultrasonic sensor value(cm)"
     export function GetultrasonicValue(port: Sensor_Port): number {
         let Check_Digit: number = 0;
         let sersor_value: number = 0;
@@ -775,11 +775,55 @@ namespace Sensor {
         return sersor_value;
     }
 
+    /**
+     * Get the value of Photosensitive sensor on a port 光敏值
+     */
+    //% weight=95 blockGap=50 blockId=GetPhotosensitiveValue block="Get %port Photosensitive sensor value(0~100)"
+    export function GetPhotosensitiveValue(port: Sensor_Port): number {
+        let Check_Digit: number = 0;
+        let sersor_value: number = 0;
+        let sensor: number = Sensor_type.photosensitive;
+        let buf = pins.createBuffer(8);
+
+        buf[0] = 0xFE;
+        buf[1] = 0xFE;
+        buf[2] = 0x05;        //长度
+        buf[3] = hicbit_control.getsncode();//sn码
+        buf[4] = 0xC1;                      //CMD
+        buf[5] = sensor;
+        buf[6] = port;
+        for (let i = 0; i < 7; i++)
+            Check_Digit = Check_Digit + buf[i];
+        buf[7] = Check_Digit & 0xFF;       //校验
+        serial.writeBuffer(buf);
+
+        basic.pause(50);
+
+        switch (port)    //Port_num
+        {
+            case 1:
+                sersor_value = hicbit_control.Port_A[sensor];
+                break;
+            case 2:
+                sersor_value = hicbit_control.Port_B[sensor];
+                break;
+            case 3:
+                sersor_value = hicbit_control.Port_C[sensor];
+                break;
+            case 4:
+                sersor_value = hicbit_control.Port_D[sensor];
+                break;
+        }
+
+        hicbit_control.arrayInit();
+        return sersor_value;
+    }
+
 
     /**
     * Get the Photosensitive sensor status,1 detect bright,0 no detect bright 光敏
     */
-    //% weight=95 blockId=GetPhotosensitive block="|port %port|Photosensitive sensor |sensor_flag %sensor_flag| bright"
+    //% weight=94 blockId=GetPhotosensitive block="|port %port|Photosensitive sensor |sensor_flag %sensor_flag| bright"
     export function GetPhotosensitive(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -818,7 +862,7 @@ namespace Sensor {
         }
 
         hicbit_control.arrayInit();
-        if (sersor_value == 1)  //有
+        if (sersor_value > 50)  //有
         {
             if (sensor_flag == 0x01)
                 flag = true;
@@ -839,7 +883,7 @@ namespace Sensor {
     /**
     * Get the collision sensor status,1 trigger,0 no trigger 碰撞
     */
-    //% weight=94 blockId=Getcollisionsensor block="|port %port| collision sensoris |sensor_flag %sensor_flag| trigger"
+    //% weight=93 blockId=Getcollisionsensor block="|port %port| collision sensoris |sensor_flag %sensor_flag| trigger"
     export function Getcollisionsensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -899,7 +943,7 @@ namespace Sensor {
     /**
     *Get the obstacle avoidance sensor status,1 detect obstacle,0 no detect obstacle 避障判断
     */
-    //% weight=93 blockId=GetavoidSensor block="|port %port| Obstacle avoidance sensor |sensor_flag %sensor_flag| obstacle"
+    //% weight=92 blockId=GetavoidSensor block="|port %port| Obstacle avoidance sensor |sensor_flag %sensor_flag| obstacle"
     export function GetavoidSensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -959,7 +1003,7 @@ namespace Sensor {
     /**
     *Set the Sound sensor status,1 detect the sound source,0 no detect the sound source 声音
     */
-    //% weight=92 blockId=GetSoundsensor block="|port %port| Sound sensor |sensor_flag %sensor_flag| source"
+    //% weight=91 blockId=GetSoundsensor block="|port %port| Sound sensor |sensor_flag %sensor_flag| source"
     export function GetSoundsensor(port: Sensor_Port,sensor_flag:Detect_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -1019,7 +1063,7 @@ namespace Sensor {
     /**
     *Get the line follower sensor port value 巡线
     */
-    //% weight=91 blockId=GetlineSensor block="|port %port| the line follower sensor detect |sensor_flag %sensor_flag| "
+    //% weight=90 blockId=GetlineSensor block="|port %port| the line follower sensor detect |sensor_flag %sensor_flag| "
     export function GetlineSensor(port: Sensor_Port,sensor_flag:line_follower_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -1079,7 +1123,7 @@ namespace Sensor {
     /**
     *Get the colour sensor port value 颜色
     */
-    //% weight=90 blockId=GetColorSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
+    //% weight=89 blockId=GetColorSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
     export function GetColorSensor(port: Sensor_Port,sensor_flag:Color_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;
@@ -1129,7 +1173,7 @@ namespace Sensor {
     /**
     *Get the GyroscopGe sensor port value 陀螺仪
     */
-    //% weight=89 blockGap=50 blockId=GetGyroscopGeSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
+    //% weight=88 blockGap=50 blockId=GetGyroscopGeSensor block="|port %port| the colour sensor detect |sensor_flag %sensor_flag| "
     export function GetGyroscopGeSensor(port: Sensor_Port,sensor_flag:GyroscopGe_Flag): boolean {
         let flag: boolean = false;
         let Check_Digit: number = 0;

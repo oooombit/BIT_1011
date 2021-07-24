@@ -8,6 +8,7 @@
   "Sensor.GetColorSensor": "Get the colour sensor port value 颜色",
   "Sensor.GetGyroscopGeSensor": "Get the GyroscopGe sensor port value 陀螺仪",
   "Sensor.GetPhotosensitive": "Get the Photosensitive sensor status,1 detect bright,0 no detect bright 光敏",
+  "Sensor.GetPhotosensitiveValue": "Get the value of Photosensitive sensor on a port 光敏值",
   "Sensor.GetSensorValue": "Get the value of a sensor on a port",
   "Sensor.GetSoundsensor": "Set the Sound sensor status,1 detect the sound source,0 no detect the sound source 声音",
   "Sensor.GetTemperaturesensorValue": "Get the value of Temperature sensor on a port 温度",
